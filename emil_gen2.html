@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulk Email Address Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+            @keyframes envelopeWave {
+                0%, 100% { transform: translateY(0) rotate(-2deg); }
+                50% { transform: translateY(-10px) rotate(2deg); }
+            }
+            .animate-bounce {
+                animation: envelopeWave 2s ease-in-out infinite;
+            }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 1.5s ease-out forwards;
+        }
+
+        .toggle-checkbox:checked {
+            right: 0;
+            background-color: #3b82f6;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #93c5fd;
+        }
+        #emailList {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .floating-btn {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="bg-[#1e3a8a] min-h-screen">
+    <!-- Opening Animation -->
+    <div class="fixed inset-0 flex flex-col items-center justify-center bg-[#1e3a8a] z-50 transition-opacity duration-1000 opacity-100" id="openingAnimation">
+        <div class="relative h-32 w-32 mx-auto animate-bounce">
+            <div class="absolute inset-0 bg-white rounded-lg opacity-30 transform -rotate-12"></div>
+            <div class="absolute inset-2 bg-white rounded-sm opacity-70 transform rotate-6"></div>
+            <div class="relative h-full w-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+            </div>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold text-white mt-6 text-center">
+            <span class="animate-fadeIn">Bulk Email Generator</span>
+        </h1>
+        <button class="mt-8 bg-white text-blue-900 font-bold py-3 px-8 rounded-full hover:bg-blue-100 transition-all duration-300 animate-bounce" 
+                id="enterBtn">
+            Get Started
+        </button>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 hidden" id="mainContent">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Bulk Email Address Generator</h1>
+            <p class="text-blue-200">Create multiple email variations for testing or marketing purposes</p>
+        </div>
+
+        <!-- Main Card -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <!-- Input Section -->
+            <div class="mb-6">
+                <label for="baseName" class="block text-sm font-medium text-gray-700 mb-2">Base Name</label>
+                <input type="text" id="baseName" placeholder="e.g. john.doe, jane, user" 
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+
+            <!-- Domain Selection -->
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Domain</label>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="domain" value="gmail.com" checked class="form-radio h-4 w-4 text-indigo-600">
+                        <span class="ml-2 text-gray-700">gmail.com</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="domain" value="yahoo.com" class="form-radio h-4 w-4 text-indigo-600">
+                        <span class="ml-2 text-gray-700">yahoo.com</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="domain" value="outlook.com" class="form-radio h-4 w-4 text-indigo-600">
+                        <span class="ml-2 text-gray-700">outlook.com</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="domain" value="custom" class="form-radio h-4 w-4 text-indigo-600">
+                        <span class="ml-2 text-gray-700">Custom:</span>
+                        <input type="text" id="customDomain" disabled placeholder="yourdomain.com" 
+                               class="ml-2 px-2 py-1 border border-gray-300 rounded-md w-32">
+                    </label>
+                </div>
+            </div>
+
+            <!-- Email Format Options -->
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Email Formats</label>
+                <div class="space-y-2">
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" checked class="form-checkbox h-4 w-4 text-indigo-600" value="default">
+                        <span class="ml-2 text-gray-700">Default (name@domain)</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" checked class="form-checkbox h-4 w-4 text-indigo-600" value="dot">
+                        <span class="ml-2 text-gray-700">With dot (first.last@domain)</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" checked class="form-checkbox h-4 w-4 text-indigo-600" value="numbers">
+                        <span class="ml-2 text-gray-700">With numbers (name123@domain)</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" checked class="form-checkbox h-4 w-4 text-indigo-600" value="underscore">
+                        <span class="ml-2 text-gray-700">With underscore (name_last@domain)</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" checked class="form-checkbox h-4 w-4 text-indigo-600" value="random">
+                        <span class="ml-2 text-gray-700">Random variations</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Quantity Slider -->
+            <div class="mb-6">
+                <label for="quantity" class="block text-sm font-medium text-gray-700 mb-2">
+                    Number of emails to generate: <span id="quantityValue">50</span>
+                </label>
+                <input type="range" id="quantity" min="10" max="500" value="50" 
+                       class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+            </div>
+
+            <!-- Generate Button -->
+            <button id="generateBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-4 rounded-lg font-medium transition duration-200">
+                ✨ Generate Email Addresses
+            </button>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="hidden">
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-gray-800">Generated Emails</h2>
+                    <div class="flex space-x-2">
+                        <button id="copyBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded-lg text-sm font-medium transition duration-150">
+                            📋 Copy All
+                        </button>
+                        <button id="exportBtn" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 py-2 px-4 rounded-lg text-sm font-medium transition duration-150">
+                            📁 Export CSV
+                        </button>
+                        <button id="clearBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded-lg text-sm font-medium transition duration-150">
+                            🗑️ Clear
+                        </button>
+                    </div>
+                </div>
+                <div id="emailList" class="bg-gray-50 border border-gray-200 rounded-lg p-4 font-mono text-sm text-gray-700"></div>
+                <div class="mt-3 text-sm text-gray-500">
+                    <span id="emailCount">0</span> emails generated
+                </div>
+            </div>
+        </div>
+
+        <!-- Premium Upsell -->
+        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl shadow-lg p-6">
+            <div class="flex flex-col md:flex-row items-center md:justify-between">
+                <div>
+                    <h3 class="text-lg font-semibold text-indigo-800 mb-1">Upgrade to Premium</h3>
+                    <p class="text-gray-600 text-sm">Get unlimited email generation and advanced features!</p>
+                </div>
+                <button class="mt-4 md:mt-0 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-6 rounded-lg font-medium transition duration-200">
+                    Learn More
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="fixed bottom-2 left-0 right-0 text-center text-blue-200 text-sm">
+        Powered by AlmaSparK
+    </footer>
+    
+    <!-- Floating Action Button -->
+    <div class="fixed bottom-16 right-6">
+        <button id="feedbackBtn" class="floating-btn bg-indigo-600 hover:bg-indigo-700 text-white rounded-full p-4 shadow-lg transition duration-200">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        // Opening animation handler
+        document.getElementById('enterBtn').addEventListener('click', function() {
+            document.getElementById('openingAnimation').classList.add('opacity-0');
+            setTimeout(() => {
+                document.getElementById('openingAnimation').classList.add('hidden');
+                document.getElementById('mainContent').classList.remove('hidden');
+            }, 1000);
+        });
+
+        // Main functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const baseNameInput = document.getElementById('baseName');
+            const domainRadios = document.querySelectorAll('input[name="domain"]');
+            const customDomainInput = document.getElementById('customDomain');
+            const formatCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+            const quantitySlider = document.getElementById('quantity');
+            const quantityValue = document.getElementById('quantityValue');
+            const generateBtn = document.getElementById('generateBtn');
+            const resultsSection = document.getElementById('resultsSection');
+            const emailList = document.getElementById('emailList');
+            const emailCount = document.getElementById('emailCount');
+            const copyBtn = document.getElementById('copyBtn');
+            const exportBtn = document.getElementById('exportBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const feedbackBtn = document.getElementById('feedbackBtn');
+
+            // Domain selection handler
+            domainRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    customDomainInput.disabled = this.value !== 'custom';
+                    if (this.value === 'custom') {
+                        customDomainInput.focus();
+                    }
+                });
+            });
+
+            // Quantity slider handler
+            quantitySlider.addEventListener('input', function() {
+                quantityValue.textContent = this.value;
+            });
+
+            // Generate emails handler
+            generateBtn.addEventListener('click', generateEmails);
+            copyBtn.addEventListener('click', copyEmails);
+            exportBtn.addEventListener('click', exportToCSV);
+            clearBtn.addEventListener('click', clearResults);
+            feedbackBtn.addEventListener('click', showFeedbackModal);
+
+            function generateEmails() {
+                const baseName = baseNameInput.value.trim();
+                if (!baseName) {
+                    alert('Please enter a base name');
+                    return;
+                }
+
+                // Get selected domain
+                let domain;
+                const selectedDomain = document.querySelector('input[name="domain"]:checked').value;
+                if (selectedDomain === 'custom') {
+                    domain = customDomainInput.value.trim();
+                    if (!domain) {
+                        alert('Please enter a custom domain');
+                        return;
+                    }
+                } else {
+                    domain = selectedDomain;
+                }
+
+                // Get selected formats
+                const selectedFormats = Array.from(formatCheckboxes)
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value);
+
+                if (selectedFormats.length === 0) {
+                    alert('Please select at least one email format');
+                    return;
+                }
+
+                // Get quantity
+                const quantity = parseInt(quantitySlider.value);
+
+                // Generate emails
+                const emails = [];
+                const cleanBase = baseName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+
+                // Basic variations
+                const parts = baseName.split(/[^a-zA-Z0-9]/).filter(p => p);
+                const firstName = parts.length > 0 ? parts[0].toLowerCase() : cleanBase;
+                const lastName = parts.length > 1 ? parts[1].toLowerCase() : '';
+
+                for (let i = 0; i < quantity; i++) {
+                    let email;
+                    const format = selectedFormats[Math.floor(Math.random() * selectedFormats.length)];
+
+                    switch(format) {
+                        case 'default':
+                            email = `${cleanBase}@${domain}`;
+                            break;
+                        case 'dot':
+                            email = lastName 
+                                ? `${firstName}.${lastName}@${domain}` 
+                                : `${firstName}.${Math.floor(Math.random() * 100)}@${domain}`;
+                            break;
+                        case 'numbers':
+                            email = `${cleanBase}${Math.floor(Math.random() * 10000)}@${domain}`;
+                            break;
+                        case 'underscore':
+                            email = lastName 
+                                ? `${firstName}_${lastName}@${domain}` 
+                                : `${firstName}_${Math.floor(Math.random() * 100)}@${domain}`;
+                            break;
+                        case 'random':
+                            const randomPrefix = Math.random().toString(36).substring(2, 5);
+                            const randomSuffix = Math.floor(Math.random() * 100);
+                            email = `${cleanBase}${randomPrefix}${randomSuffix}@${domain}`;
+                            break;
+                    }
+
+                    // Ensure uniqueness
+                    if (!emails.includes(email)) {
+                        emails.push(email);
+                    } else {
+                        i--; // Try again if email is duplicate
+                    }
+                }
+
+                // Display results
+                displayEmails(emails);
+            }
+
+            function displayEmails(emails) {
+                emailList.innerHTML = '';
+                emails.forEach(email => {
+                    const div = document.createElement('div');
+                    div.className = 'py-1 px-2 hover:bg-gray-100 rounded';
+                    div.textContent = email;
+                    emailList.appendChild(div);
+                });
+                emailCount.textContent = emails.length;
+                resultsSection.classList.remove('hidden');
+            }
+
+            function copyEmails() {
+                const emails = Array.from(emailList.children).map(el => el.textContent);
+                if (emails.length === 0) {
+                    alert('No emails to copy');
+                    return;
+                }
+                navigator.clipboard.writeText(emails.join('\n'))
+                    .then(() => {
+                        alert('Copied all emails to clipboard!');
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                        alert('Failed to copy emails');
+                    });
+            }
+
+            function exportToCSV() {
+                const emails = Array.from(emailList.children).map(el => el.textContent);
+                if (emails.length === 0) {
+                    alert('No emails to export');
+                    return;
+                }
+
+                let csvContent = "data:text/csv;charset=utf-8,";
+                csvContent += emails.join('\n');
+
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", "generated_emails.csv");
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+            function clearResults() {
+                emailList.innerHTML = '';
+                emailCount.textContent = '0';
+                resultsSection.classList.add('hidden');
+            }
+
+            function showFeedbackModal() {
+                alert('Thanks for your feedback! We\'re constantly improving this tool.');
+            }
+        });
+    </script>
+</body>
+</html>

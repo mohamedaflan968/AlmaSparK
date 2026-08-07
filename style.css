@@ -1,0 +1,68 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  scroll-behavior: smooth;
+}
+
+#scrollImage {
+  position: fixed;
+  top: 20%;
+  right: 10px;
+  width: 100px;
+  z-index: 100;
+}
+
+.intro, .services, .contact {
+  padding: 80px 20px;
+  min-height: 100vh;
+  background-size: cover;
+  color: white;
+}
+
+.intro {
+  background: url('BGimage.png') no-repeat center center;
+  background-size: cover;
+  text-align: center;
+}
+
+.services {
+  background: url('Services.jpeg') no-repeat center center;
+  background-size: cover;
+}
+
+.contact {
+  background: url('Contact.jpeg') no-repeat center center;
+  background-size: cover;
+}
+
+header h1.animated-text {
+  font-size: 48px;
+  animation: typing 3s steps(30), blink 0.5s step-end infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 4px solid white;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  50% { border-color: transparent }
+}
+
+.service-box {
+  display: inline-block;
+  width: 300px;
+  margin: 20px;
+  background: rgba(0,0,0,0.6);
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.service-box img {
+  width: 100%;
+  border-radius: 10px;
+}
