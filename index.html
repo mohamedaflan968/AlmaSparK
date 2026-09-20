@@ -248,6 +248,34 @@ html.light .float-chip{background:rgba(255,255,255,.85)}
 @media(max-width:1000px){.services-grid{grid-template-columns:repeat(2,1fr)}.svc.wide{grid-column:span 2}}
 @media(max-width:640px){.services-grid{grid-template-columns:1fr}.svc.wide{grid-column:span 1}}
 
+/* Spider-man services booth */
+.svc-booth{position:relative;margin:58px auto 0;max-width:860px}
+.svc-booth-inner{position:relative;display:flex;align-items:center;justify-content:center;gap:34px;flex-wrap:wrap;padding:36px 26px 32px;overflow:hidden;background:linear-gradient(180deg,rgba(46,107,255,.06),transparent)}
+.svc-booth-inner::before{content:'';position:absolute;inset:0;border-radius:26px;border:1px dashed var(--stroke2);pointer-events:none}
+.web-corner{position:absolute;top:-30px;left:-30px;width:200px;height:200px;opacity:.55;pointer-events:none;z-index:0}
+.web-corner svg{width:100%;height:100%}
+.slinger{flex:none;width:106px;height:168px;z-index:1;filter:drop-shadow(0 12px 26px rgba(229,34,43,.32));transform-origin:50% 0;animation:spideySwing 3.4s ease-in-out infinite}
+.slinger svg{width:100%;height:100%}
+@keyframes spideySwing{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(9deg)}}
+.svc-ticker{position:relative;flex:1 1 340px;min-width:300px;max-width:460px;padding:26px 28px 24px;overflow:hidden}
+.svc-ticker::before{content:'';position:absolute;top:0;left:18%;right:18%;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.6}
+.ticker-tag{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan)}
+.ticker-row{display:flex;gap:16px;align-items:flex-start;margin-top:18px}
+.ticker-ic{width:54px;height:54px;flex:none;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;background:var(--grad);box-shadow:var(--glow)}
+.ticker-title{font-family:var(--font-d);font-size:21px;font-weight:700}
+.ticker-desc{color:var(--muted);font-size:13.5px;line-height:1.65;margin-top:7px;text-align:left}
+#tickerBody{transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .45s ease}
+#tickerBody.t-flip{transform:translateY(-26px);opacity:0}
+.ticker-meta{display:flex;align-items:center;gap:14px;margin-top:20px}
+.ticker-bar{flex:1;height:3px;border-radius:6px;background:var(--panel);overflow:hidden;border:1px solid var(--stroke)}
+.ticker-bar span{display:block;height:100%;width:100%;background:var(--grad);transform-origin:left;animation:tickerFill 3.6s linear infinite}
+@keyframes tickerFill{0%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+.ticker-dots{display:flex;gap:6px}
+.ticker-dots i{width:6px;height:6px;border-radius:50%;background:var(--stroke2);display:block;transition:all .3s ease}
+.ticker-dots i.on{background:var(--cyan);box-shadow:0 0 8px var(--cyan);transform:scale(1.35)}
+@media(max-width:640px){.web-corner{display:none}.slinger{width:78px;height:124px}.svc-ticker{padding:22px 20px;min-width:0}}
+@media (prefers-reduced-motion: reduce){.slinger{animation:none}.ticker-bar span{animation:none}}
+
 /* Why AlmaSpark timeline */
 .why-grid{position:relative;margin-top:70px;display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
 .why-grid::before{content:'';position:absolute;top:0;bottom:0;left:50%;width:2px;background:linear-gradient(180deg,transparent,var(--cyan),transparent);transform:translateX(-50%);opacity:.35}
@@ -786,6 +814,53 @@ html.light #newsPop .np-box{background:rgba(255,255,255,.98)}
       <h2 class="section-title mt-0" style="margin-top:18px">Premium Services, <span class="grad-text">Crafted For Growth</span></h2>
       <p class="section-sub">From stunning websites to complete brand identities — everything your business needs to dominate the digital world.</p>
     </div>
+    <div class="svc-booth">
+      <div class="svc-booth-inner">
+        <div class="web-corner" aria-hidden="true">
+          <svg viewBox="0 0 200 200" fill="none">
+            <g stroke="rgba(120,165,255,.18)" stroke-width="1">
+              <line x1="100" y1="100" x2="0" y2="0"/><line x1="100" y1="100" x2="200" y2="0"/>
+              <line x1="100" y1="100" x2="200" y2="100"/><line x1="100" y1="100" x2="200" y2="200"/>
+              <line x1="100" y1="100" x2="0" y2="200"/><line x1="100" y1="100" x2="0" y2="100"/>
+              <line x1="100" y1="100" x2="29" y2="171"/><line x1="100" y1="100" x2="171" y2="29"/>
+              <circle cx="100" cy="100" r="28"/><circle cx="100" cy="100" r="52"/>
+              <circle cx="100" cy="100" r="76"/><circle cx="100" cy="100" r="100"/>
+            </g>
+          </svg>
+        </div>
+        <div class="slinger" aria-hidden="true">
+          <svg viewBox="0 0 120 190" fill="none">
+            <path d="M60 0 C61 26 60 40 60 48" stroke="#D7E4FF" stroke-width="1.4" opacity=".7"/>
+            <path d="M49 88 C47 70 47 58 51 48" stroke="#E5222B" stroke-width="9" stroke-linecap="round"/>
+            <path d="M71 88 C73 70 73 58 69 48" stroke="#E5222B" stroke-width="9" stroke-linecap="round"/>
+            <circle cx="60" cy="75" r="16" fill="#E5222B"/>
+            <ellipse cx="51.5" cy="73" rx="5.4" ry="8" fill="#fff" transform="rotate(-18 51.5 73)"/>
+            <ellipse cx="68.5" cy="73" rx="5.4" ry="8" fill="#fff" transform="rotate(18 68.5 73)"/>
+            <path d="M45 96 Q60 104 75 96 L78 118 Q60 127 42 118 Z" fill="#E5222B"/>
+            <path d="M51 113 C45 123 40 132 46 149" stroke="#2E6FD6" stroke-width="9" stroke-linecap="round"/>
+            <path d="M69 113 C75 123 80 132 74 149" stroke="#2E6FD6" stroke-width="9" stroke-linecap="round"/>
+            <path d="M44 142 C44 147 45 151 47 157" stroke="#E5222B" stroke-width="9" stroke-linecap="round"/>
+            <path d="M76 142 C76 147 75 151 73 157" stroke="#E5222B" stroke-width="9" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="glass svc-ticker">
+          <span class="ticker-tag"><i class="fa-solid fa-circle-play"></i> Now Showing</span>
+          <div id="tickerBody">
+            <div class="ticker-row">
+              <div class="ticker-ic" id="tickerIc"><i class="fa-solid fa-code"></i></div>
+              <div>
+                <div class="ticker-title" id="tickerTitle">Website Development</div>
+                <p class="ticker-desc" id="tickerDesc">High-performance websites that are fast, SEO-ready and built to convert.</p>
+              </div>
+            </div>
+          </div>
+          <div class="ticker-meta">
+            <div class="ticker-bar"><span></span></div>
+            <div class="ticker-dots" id="tickerDots"></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="services-grid">
       <div class="glass svc wide" data-reveal>
         <span class="svc-num">01</span>
@@ -967,7 +1042,7 @@ html.light #newsPop .np-box{background:rgba(255,255,255,.98)}
 <section id="portfolio" class="section">
   <div class="wrap">
     <div class="center section-head" data-reveal>
-      <span class="eyebrow"><span class="pulse-dot"></span> Our Work</span>
+      <span class="eyebrow"><span class="pulse-dot"></span> Our Recent Works</span>
       <h2 class="section-title" style="margin-top:18px">Projects That <span class="grad-text">Speak For Us</span></h2>
       <p class="section-sub">A curated selection of websites, designs and digital products we're proud to have delivered.</p>
     </div>
@@ -978,6 +1053,30 @@ html.light #newsPop .np-box{background:rgba(255,255,255,.98)}
       <button class="filter-btn" data-filter="branding">Branding</button>
     </div>
     <div class="masonry" id="masonry">
+      <div class="pcard" data-cat="web" data-reveal>
+        <img src="Heanna.png" alt="HennaWhispers natural mehndi design website" loading="lazy">
+        <span class="picon"><i class="fa-solid fa-expand"></i></span>
+        <div class="poverlay">
+          <span class="ptag">Web</span>
+          <h3>HennaWhispers — Natural Mehndi Design</h3>
+          <div class="pacts">
+            <a href="https://henna-whispers0.vercel.app/" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live</a>
+            <button class="view-case" data-title="HennaWhispers — Natural Mehndi Design" data-img="Heanna.png" data-cat="Web Development" data-desc="HennaWhispers Website — Beautiful natural mehndi design. Professional bridal mehndi artist &amp; premium handmade natural henna cones."><i class="fa-solid fa-eye"></i> Case</button>
+          </div>
+        </div>
+      </div>
+      <div class="pcard" data-cat="web" data-reveal>
+        <img src="pearls.png" alt="Pearls Academy English institute website" loading="lazy">
+        <span class="picon"><i class="fa-solid fa-expand"></i></span>
+        <div class="poverlay">
+          <span class="ptag">Web</span>
+          <h3>Pearls Academy — English Institute</h3>
+          <div class="pacts">
+            <a href="https://pearls-academy.vercel.app/" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live</a>
+            <button class="view-case" data-title="Pearls Academy — English Institute" data-img="pearls.png" data-cat="Web Development" data-desc="Pearls Academy Website — English institute. Learn English, speak with confidence."><i class="fa-solid fa-eye"></i> Case</button>
+          </div>
+        </div>
+      </div>
       <div class="pcard" data-cat="web" data-reveal>
         <img src="Web Development.jpeg" alt="Custom web development project" loading="lazy">
         <span class="picon"><i class="fa-solid fa-expand"></i></span>
@@ -2195,6 +2294,51 @@ document.addEventListener("keydown", function(e){
     }
 
 });
+</script>
+<script>
+  /* Spider-man service auto-rotator */
+  (function(){
+    var S=[
+      {i:'fa-code',t:'Website Development',d:'High-performance websites that are fast, SEO-ready and built to convert.'},
+      {i:'fa-layer-group',t:'Web Applications',d:'Scalable dashboards, portals and business apps with real-time power.'},
+      {i:'fa-pen-ruler',t:'UI/UX Design',d:'Interfaces people love to use — research-driven, elegant and conversion-focused.'},
+      {i:'fa-star',t:'Logo Design',d:'Memorable logos that make your brand instantly recognizable.'},
+      {i:'fa-brush',t:'Brand Identity',d:'Complete brand systems — colors, typography and voice that tell your story.'},
+      {i:'fa-palette',t:'Graphic Design',d:'Posters, flyers, banners and marketing assets that demand attention.'},
+      {i:'fa-hashtag',t:'Social Media Design',d:'Scroll-stopping creatives engineered for engagement and reach.'},
+      {i:'fa-magnifying-glass-chart',t:'SEO',d:'Rank higher, get found and turn search clicks into paying customers.'},
+      {i:'fa-id-card',t:'Portfolio Websites',d:'Personal portfolios that win clients, jobs and opportunities.'},
+      {i:'fa-server',t:'Hosting',d:'Secure, high-uptime hosting with daily backups and free SSL.'},
+      {i:'fa-screwdriver-wrench',t:'Maintenance',d:'Updates, monitoring, security patches and 24/7 care for your site.'}
+    ];
+    var body=document.getElementById('tickerBody');
+    if(!body)return;
+    var icIc=document.getElementById('tickerIc').querySelector('i'),
+        ti=document.getElementById('tickerTitle'),
+        de=document.getElementById('tickerDesc'),
+        dots=document.getElementById('tickerDots');
+    if(!icIc||!ti||!de||!dots)return;
+    var idx=0;
+    dots.innerHTML=S.map(function(x,i){return '<i'+(i?'':' class="on"')+'></i>';}).join('');
+    var dotEls=[].slice.call(dots.children);
+    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function render(){
+      var s=S[idx];
+      icIc.className='fa-solid '+s.i;
+      ti.textContent=s.t;
+      de.textContent=s.d;
+      dotEls.forEach(function(d,j){d.className=(j===idx)?'on':'';});
+    }
+    function tick(){
+      if(!reduce)body.classList.add('t-flip');
+      setTimeout(function(){
+        idx=(idx+1)%S.length;
+        render();
+        if(!reduce)body.classList.remove('t-flip');
+      },reduce?0:430);
+    }
+    setInterval(tick,3600);
+  })();
 </script>
 </body>
 </html>
